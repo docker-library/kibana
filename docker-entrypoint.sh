@@ -9,7 +9,9 @@ fi
 
 # Run as user "kibana" if the command is "kibana"
 if [ "$1" = 'kibana' ]; then
-	if [ "$ELASTICSEARCH_PORT_9200_TCP" ]; then
+	if [ "$ELASTICSEARCH" ]; then
+		sed -ri "s!^(elasticsearch_url:).*!\1 '$ELASTICSEARCH'!" /opt/kibana/config/kibana.yml
+	elif [ "$ELASTICSEARCH_PORT_9200_TCP" ]; then
 		sed -ri 's!^(elasticsearch_url:).*!\1 "http://elasticsearch:9200"!' /opt/kibana/config/kibana.yml
 	else
 		echo >&2 'warning: missing ELASTICSEARCH_PORT_9200_TCP'
