@@ -4,7 +4,7 @@ set -e
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
 url='git://github.com/docker-library/kibana'
-commit=$(git log -1 --format="format:%H" -- Dockerfile)
+commit="$(git log -1 --format="format:%H" -- .)"
 
 echo '# maintainer: InfoSiftr <github@infosiftr.com> (@infosiftr)'
 
