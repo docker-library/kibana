@@ -1,22 +1,31 @@
 #!/bin/bash
 set -e
 
+declare -A aliases=(
+	[4.1]='4 latest'
+)
+
 cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
+versions=( */ )
+versions=( "${versions[@]%/}" )
 url='git://github.com/docker-library/kibana'
-commit="$(git log -1 --format="format:%H" -- .)"
 
 echo '# maintainer: InfoSiftr <github@infosiftr.com> (@infosiftr)'
 
-fullVersion="$(grep -m1 'ENV KIBANA_VERSION' Dockerfile | cut -d' ' -f3)"
-versionAliases=()
-while [ "${fullVersion%[.-]*}" != "$fullVersion" ]; do
-	versionAliases+=( $fullVersion )
-	fullVersion="${fullVersion%[.-]*}"
-done
-versionAliases+=( $fullVersion latest )
+for version in "${versions[@]}"; do
+	commit="$(git log -1 --format='format:%H' -- "$version")"
+	fullVersion="$(grep -m1 'ENV KIBANA_VERSION' "$version/Dockerfile" | cut -d' ' -f3)"
 
-echo
-for va in "${versionAliases[@]}"; do
-	echo "$va: ${url}@${commit}"
+	versionAliases=()
+	while [ "$fullVersion" != "$version" -a "${fullVersion%[.-]*}" != "$fullVersion" ]; do
+		versionAliases+=( $fullVersion )
+		fullVersion="${fullVersion%[.-]*}"
+	done
+	versionAliases+=( $version ${aliases[$version]} )
+
+	echo
+	for va in "${versionAliases[@]}"; do
+		echo "$va: ${url}@${commit} $version"
+	done
 done
