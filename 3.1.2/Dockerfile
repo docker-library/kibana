@@ -20,7 +20,7 @@ RUN arch="$(dpkg --print-architecture)" \
   && chmod +x /usr/local/bin/gosu
 
 ENV KIBANA_VERSION 3.1.2
-# Generate KIBANA_SHA1 with: sha1sum ~/Downloads/kibana-3.1.3.tar.gz
+# Generate KIBANA_SHA1 with: sha1sum ~/Downloads/kibana-3.1.2.tar.gz
 ENV KIBANA_SHA1 a59ea4abb018a7ed22b3bc1c3bcc6944b7009dc4
 
 RUN set -x \
