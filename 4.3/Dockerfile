@@ -15,8 +15,8 @@ RUN arch="$(dpkg --print-architecture)" \
 	&& rm /usr/local/bin/gosu.asc \
 	&& chmod +x /usr/local/bin/gosu
 
-ENV KIBANA_VERSION 4.3.0
-ENV KIBANA_SHA1 d64e1fc0ddeaaab85e168177de6c78ed82bb3a3b
+ENV KIBANA_VERSION 4.3.1
+ENV KIBANA_SHA1 115ba22882df75eb5f07330b7ad8781a57569b00
 
 RUN set -x \
 	&& curl -fSL "https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz" -o kibana.tar.gz \
