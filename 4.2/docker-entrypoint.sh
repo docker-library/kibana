@@ -9,7 +9,7 @@ fi
 
 # Run as user "kibana" if the command is "kibana"
 if [ "$1" = 'kibana' ]; then
-	if test -n "$KIBANA_DEFAULTAPPID" ; then
+	if [[ "$KIBANA_DEFAULTAPPID" ]]; then
 		sed -ri "s!^(\#\s*)?(kibana\.defaultAppId:).*!\2 '$KIBANA_DEFAULTAPPID'!" /opt/kibana/config/kibana.yml
 	fi
 	if [ "$ELASTICSEARCH_URL" -o "$ELASTICSEARCH_PORT_9200_TCP" ]; then
