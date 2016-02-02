@@ -15,16 +15,20 @@ RUN arch="$(dpkg --print-architecture)" \
 	&& rm /usr/local/bin/gosu.asc \
 	&& chmod +x /usr/local/bin/gosu
 
+# https://www.elastic.co/guide/en/kibana/4.4/setup.html#kibana-apt
+# https://packages.elasticsearch.org/GPG-KEY-elasticsearch
+RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 46095ACC8548582C1A2699A9D27D666CD88E42B4
+
+ENV KIBANA_MAJOR_VERSION 4.4
 ENV KIBANA_VERSION 4.4.0
-ENV KIBANA_SHA1 82fa06e11942e13bba518655c1d34752ca259bab
+
+RUN echo "deb http://packages.elastic.co/kibana/${KIBANA_MAJOR_VERSION}/debian stable main" | tee -a /etc/apt/sources.list
 
 RUN set -x \
-	&& curl -fSL "https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz" -o kibana.tar.gz \
-	&& echo "${KIBANA_SHA1}  kibana.tar.gz" | sha1sum -c - \
-	&& mkdir -p /opt/kibana \
-	&& tar -xz --strip-components=1 -C /opt/kibana -f kibana.tar.gz \
-	&& chown -R kibana:kibana /opt/kibana \
-	&& rm kibana.tar.gz
+    && apt-get update \
+    && apt-get install -y --no-install-recommends kibana=${KIBANA_VERSION} \
+    && chown -R kibana:kibana /opt/kibana \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV PATH /opt/kibana/bin:$PATH
 
