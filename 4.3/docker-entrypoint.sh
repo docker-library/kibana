@@ -18,7 +18,7 @@ if [ "$1" = 'kibana' ]; then
 		echo >&2 '  or -e ELASTICSEARCH_URL=http://some-elasticsearch:9200 ?'
 		echo >&2
 	fi
-	
+	[ ! -z "$SERVER_BASEPATH" ] && sed -ri "s%^(\#\s*)?(server\.basePath:).*%\2 '$SERVER_BASEPATH'%" /opt/kibana/config/kibana.yml
 	set -- gosu kibana "$@"
 fi
 
