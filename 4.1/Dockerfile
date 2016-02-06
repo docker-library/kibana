@@ -15,8 +15,20 @@ RUN arch="$(dpkg --print-architecture)" \
 	&& rm /usr/local/bin/gosu.asc \
 	&& chmod +x /usr/local/bin/gosu
 
-ENV KIBANA_VERSION 4.1.3
-ENV KIBANA_SHA1 fa93e63b425ed5a99af8ba929ffa4dd136206545
+# grab tini for signal processing and zombie killing
+ENV TINI_VERSION v0.9.0
+RUN set -x \
+	&& curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini" -o /usr/local/bin/tini \
+	&& curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini.asc" -o /usr/local/bin/tini.asc \
+	&& export GNUPGHOME="$(mktemp -d)" \
+	&& gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 6380DC428747F6C393FEACA59A84159D7001A4E5 \
+	&& gpg --verify /usr/local/bin/tini.asc \
+	&& rm -r "$GNUPGHOME" /usr/local/bin/tini.asc \
+	&& chmod +x /usr/local/bin/tini \
+	&& tini -h
+
+ENV KIBANA_VERSION 4.1.4
+ENV KIBANA_SHA1 f88a7ad612b4e7129a951cf0e64429e63d847ed9
 
 RUN set -x \
 	&& curl -fSL "https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz" -o kibana.tar.gz \
