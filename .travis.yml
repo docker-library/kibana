@@ -2,6 +2,7 @@ language: bash
 services: docker
 
 env:
+  - VERSION=4.5
   - VERSION=4.4
   - VERSION=4.3
   - VERSION=4.2
