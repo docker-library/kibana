@@ -19,6 +19,11 @@ for version in "${versions[@]}"; do
 	fi
 	sha1="$(curl -fsSL "https://download.elastic.co/kibana/kibana/kibana-$fullVersion-linux-x64.tar.gz.sha1.txt" | cut -d' ' -f1)"
 
+	# TODO uh, fix this
+	if [ "${version//./}" -ge 43 ]; then
+		: # TODO deb packages instead
+	fi
+
 	(
 		set -x
 		sed -ri '
