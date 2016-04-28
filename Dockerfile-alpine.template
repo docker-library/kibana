@@ -1,0 +1,35 @@
+FROM alpine:3.3
+
+ENV KIBANA_MAJOR 0.0
+ENV KIBANA_VERSION 0.0.0
+
+# persistent / runtime deps
+RUN apk add --no-cache --virtual .persistent-deps \
+	ca-certificates \
+	curl
+
+# tiny
+RUN apk add --update --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ tini
+
+RUN set -xe \
+	&& apk add --no-cache --virtual .kibana-deps \
+	bash \
+	nodejs \
+	su-exec \
+	&& curl -LO https://download.elasticsearch.org/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz \
+	&& mkdir -p /opt/ \
+	&& tar xzf /kibana-${KIBANA_VERSION}-linux-x64.tar.gz -C /opt/ \
+	&& mv /opt/kibana-${KIBANA_VERSION}-linux-x64 /opt/kibana \
+	&& rm /opt/kibana/node/bin/node \
+	&& rm /opt/kibana/node/bin/npm \
+	&& ln -s /usr/bin/node /opt/kibana/node/bin/node \
+	&& ln -s /usr/bin/npm /opt/kibana/node/bin/npm \
+	&& rm -rf /kibana-${KIBANA_VERSION}-linux-x64.tar.gz
+
+ENV PATH /opt/kibana/bin:$PATH
+
+COPY docker-entrypoint.sh /
+
+EXPOSE 5601
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["kibana"]
