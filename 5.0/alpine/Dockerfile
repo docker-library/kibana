@@ -9,7 +9,7 @@ RUN apk add --no-cache --virtual .persistent-deps \
 	curl
 
 # tiny
-RUN apk add --update --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ tini
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ tini
 
 RUN set -xe \
 	&& apk add --no-cache --virtual .kibana-deps \
