@@ -41,11 +41,15 @@ RUN set -x \
 	&& mkdir -p /opt/kibana \
 	&& tar -xz --strip-components=1 -C /opt/kibana -f kibana.tar.gz \
 	&& chown -R kibana:kibana /opt/kibana \
-	&& rm kibana.tar.gz
+	&& rm kibana.tar.gz \
+	\
+# ensure the default configuration is useful when using --link
+	&& sed -ri "s!^(\#\s*)?(elasticsearch_url:).*!\2 'http://elasticsearch:9200'!" /opt/kibana/config/kibana.yml \
+	&& grep -q 'elasticsearch:9200' /opt/kibana/config/kibana.yml
 
 ENV PATH /opt/kibana/bin:$PATH
 
-COPY ./docker-entrypoint.sh /
+COPY docker-entrypoint.sh /
 
 EXPOSE 5601
 ENTRYPOINT ["/docker-entrypoint.sh"]

@@ -47,7 +47,11 @@ RUN set -x \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends kibana=$KIBANA_VERSION \
 	&& chown -R kibana:kibana /opt/kibana \
-	&& rm -rf /var/lib/apt/lists/*
+	&& rm -rf /var/lib/apt/lists/* \
+	\
+# ensure the default configuration is useful when using --link
+	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://elasticsearch:9200'!" /opt/kibana/config/kibana.yml \
+	&& grep -q 'elasticsearch:9200' /opt/kibana/config/kibana.yml
 
 ENV PATH /opt/kibana/bin:$PATH
 
