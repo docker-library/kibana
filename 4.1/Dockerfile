@@ -32,8 +32,8 @@ RUN set -x \
 	&& chmod +x /usr/local/bin/tini \
 	&& tini -h
 
-ENV KIBANA_VERSION 4.1.7
-ENV KIBANA_SHA1 980c6f5fc14a2f6b668ec736c747c8e78f80e0c7
+ENV KIBANA_VERSION 4.1.8
+ENV KIBANA_SHA1 4059c74517a48b0079e09e090cadb373abb13652
 
 RUN set -x \
 	&& wget -O kibana.tar.gz "https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz" \
