@@ -19,9 +19,15 @@ for version in "${versions[@]}"; do
 	fi
 	sha1="$(curl -fsSL "https://download.elastic.co/kibana/kibana/kibana-$fullVersion-linux-x64.tar.gz.sha1.txt" | cut -d' ' -f1)"
 
+	# TODO uh, fix this
+	if [ "${version//./}" -ge 43 ]; then
+		: # TODO deb packages instead
+	fi
+
 	(
 		set -x
 		sed -ri '
+			s/^(ENV KIBANA_MAJOR) .*/\1 '"$version"'/;
 			s/^(ENV KIBANA_VERSION) .*/\1 '"$fullVersion"'/;
 			s/^(ENV KIBANA_SHA1) .*/\1 '"$sha1"'/;
 		' "$version/Dockerfile"

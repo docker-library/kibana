@@ -32,19 +32,25 @@ RUN set -x \
 	&& chmod +x /usr/local/bin/tini \
 	&& tini -h
 
-ENV KIBANA_VERSION 4.0.3
-ENV KIBANA_SHA1 75312e930466430167a7e01be3ae41aeaf01a26c
+# https://www.elastic.co/guide/en/kibana/4.4/setup.html#kibana-apt
+# https://packages.elasticsearch.org/GPG-KEY-elasticsearch
+RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 46095ACC8548582C1A2699A9D27D666CD88E42B4
+
+ENV KIBANA_MAJOR 5.0
+ENV KIBANA_VERSION 5.0.0-alpha3
+
+#RUN echo "deb http://packages.elastic.co/kibana/${KIBANA_MAJOR}/debian stable main" > /etc/apt/sources.list.d/kibana.list
+RUN echo 'deb http://packages.elastic.co/kibana/5.0.0-alpha/debian stable main' > /etc/apt/sources.list.d/kibana.list
+# TODO figure out what's going on here and what it'll settle to for 5.0 GA
 
 RUN set -x \
-	&& wget -O kibana.tar.gz "https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz" \
-	&& echo "${KIBANA_SHA1} *kibana.tar.gz" | sha1sum -c - \
-	&& mkdir -p /opt/kibana \
-	&& tar -xz --strip-components=1 -C /opt/kibana -f kibana.tar.gz \
+	&& apt-get update \
+	&& apt-get install -y --no-install-recommends kibana=$KIBANA_VERSION \
 	&& chown -R kibana:kibana /opt/kibana \
-	&& rm kibana.tar.gz \
+	&& rm -rf /var/lib/apt/lists/* \
 	\
 # ensure the default configuration is useful when using --link
-	&& sed -ri "s!^(\#\s*)?(elasticsearch_url:).*!\2 'http://elasticsearch:9200'!" /opt/kibana/config/kibana.yml \
+	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://elasticsearch:9200'!" /opt/kibana/config/kibana.yml \
 	&& grep -q 'elasticsearch:9200' /opt/kibana/config/kibana.yml
 
 ENV PATH /opt/kibana/bin:$PATH
