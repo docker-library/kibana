@@ -8,6 +8,9 @@ fi
 
 # Run as user "kibana" if the command is "kibana"
 if [ "$1" = 'kibana' ]; then
+    if [ -n "$SERVER_BASEPATH" ]; then
+        sed -ri "s!^(\#\s*)?(server\.basePath:).*!\2 '$SERVER_BASEPATH'!" /opt/kibana/config/kibana.yml
+    fi
 	if [ "$ELASTICSEARCH_URL" ]; then
 		sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 '$ELASTICSEARCH_URL'!" /opt/kibana/config/kibana.yml
 	fi
