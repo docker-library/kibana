@@ -46,14 +46,13 @@ RUN echo 'deb http://packages.elastic.co/kibana/5.0.0-alpha/debian stable main' 
 RUN set -x \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends kibana=$KIBANA_VERSION \
-	&& chown -R kibana:kibana /opt/kibana \
 	&& rm -rf /var/lib/apt/lists/* \
 	\
 # ensure the default configuration is useful when using --link
-	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://elasticsearch:9200'!" /opt/kibana/config/kibana.yml \
-	&& grep -q 'elasticsearch:9200' /opt/kibana/config/kibana.yml
+	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://elasticsearch:9200'!" /etc/kibana/kibana.yml \
+	&& grep -q 'elasticsearch:9200' /etc/kibana/kibana.yml
 
-ENV PATH /opt/kibana/bin:$PATH
+ENV PATH /usr/share/kibana/bin:$PATH
 
 COPY docker-entrypoint.sh /
 
