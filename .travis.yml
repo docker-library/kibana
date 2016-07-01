@@ -3,6 +3,7 @@ services: docker
 
 env:
   - VERSION=5.0
+  - VERSION=5.0 VARIANT=alpine
   - VERSION=4.5
   - VERSION=4.4
   - VERSION=4.3
@@ -16,10 +17,10 @@ install:
 before_script:
   - env | sort
   - cd "$VERSION"
-  - image="kibana:$VERSION"
+  - image="kibana:${VERSION}${VARIANT:+-$VARIANT}"
 
 script:
-  - docker build -t "$image" .
+  - docker build -t "$image" "${VARIANT:-.}"
   - ~/official-images/test/run.sh "$image"
 
 after_script:
