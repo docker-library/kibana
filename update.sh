@@ -7,21 +7,52 @@ versions=( */ )
 versions=( "${versions[@]%/}" )
 
 tags="$(git ls-remote --tags https://github.com/elastic/kibana.git | cut -d/ -f3 | cut -d^ -f1 | cut -dv -f2 | sort -rV)"
+debArch="$(dpkg --print-architecture)"
 
 travisEnv=
 for version in "${versions[@]}"; do
-	possibleVersions="$(echo "$tags" | grep "^$version." )"
-	# prefer full releases over beta or milestone
-	if releaseVersions="$(echo "$possibleVersions" | grep -vEm1 'milestone|-beta|-m')"; then
-		fullVersion="$releaseVersions"
-	else
-		fullVersion="$(echo "$possibleVersions" | head -n1)"
-	fi
-	sha1="$(curl -fsSL "https://download.elastic.co/kibana/kibana/kibana-$fullVersion-linux-x64.tar.gz.sha1.txt" | cut -d' ' -f1)"
+	# major.minor.patch
+	versionMajor="${version%%.*}"
+	versionMinor="${version#$versionMajor.}"
+	[ "$versionMinor" != "$version" ] || versionMinor=
+	versionMinor="${versionMinor%%.*}"
 
-	# TODO uh, fix this
-	if [ "${version//./}" -ge 43 ]; then
-		: # TODO deb packages instead
+	fullVersion=
+	sha1=
+	if [ "$versionMajor" -eq 4 -a "$versionMinor" -ge 4 ] || [ "$versionMajor" -gt 4 ]; then
+		if [ "$versionMajor" -eq 5 ]; then
+			repoBase='http://packages.elastic.co/kibana/5.0.0-alpha/debian' # ??? what happens post-alpha?
+		else
+			repoBase="http://packages.elastic.co/kibana/$version/debian"
+		fi
+		packagesUri="$repoBase/dists/stable/main/binary-$debArch/Packages"
+		debVersions="$(
+			curl -fsSL "$packagesUri" \
+				| awk -F ': +' '
+					$1 == "Package" { pkg = $2 }
+					pkg == "kibana" && $1 == "Version" { print $2 }
+				' \
+				| sort -rV
+		)"
+		fullVersion="$(echo "$debVersions" | head -n1)"
+	else
+		possibleVersions="$(echo "$tags" | grep "^$version\.")"
+		# prefer full releases over beta or milestone
+		if releaseVersions="$(echo "$possibleVersions" | grep -vEm1 'milestone|-beta|-m')"; then
+			fullVersion="$releaseVersions"
+		else
+			fullVersion="$(echo "$possibleVersions" | head -n1)"
+		fi
+
+		sha1="$(curl -fsSL "https://download.elastic.co/kibana/kibana/kibana-$fullVersion-linux-x64.tar.gz.sha1.txt" | cut -d' ' -f1)"
+	fi
+
+	if [ -z "$fullVersion" ]; then
+		echo >&2
+		echo >&2 "warning: unable to figure out 'full version' for $version"
+		echo >&2 '    skipping'
+		echo >&2
+		continue
 	fi
 
 	(
