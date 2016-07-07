@@ -32,7 +32,7 @@ RUN set -x \
 	&& chmod +x /usr/local/bin/tini \
 	&& tini -h
 
-ENV KIBANA_VERSION 4.1.8
+ENV KIBANA_VERSION 4.1.9
 ENV KIBANA_SHA1 4059c74517a48b0079e09e090cadb373abb13652
 
 RUN set -x \
