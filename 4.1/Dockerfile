@@ -33,7 +33,7 @@ RUN set -x \
 	&& tini -h
 
 ENV KIBANA_VERSION 4.1.9
-ENV KIBANA_SHA1 4059c74517a48b0079e09e090cadb373abb13652
+ENV KIBANA_SHA1 bcb724706e6014fd6eeec4f1a9d689fb53acead1
 
 RUN set -x \
 	&& wget -O kibana.tar.gz "https://download.elastic.co/kibana/kibana/kibana-${KIBANA_VERSION}-linux-x64.tar.gz" \
