@@ -4,8 +4,9 @@ FROM debian:jessie
 RUN groupadd -r kibana && useradd -r -m -g kibana kibana
 
 RUN apt-get update && apt-get install -y \
-		ca-certificates \
-		wget \
+        apt-transport-https \
+        ca-certificates \
+        wget \
 	--no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 # grab gosu for easy step-down from root
