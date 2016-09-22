@@ -40,7 +40,7 @@ ENV KIBANA_MAJOR 5.0
 ENV KIBANA_VERSION 5.0.0-beta1
 
 #RUN echo "deb http://packages.elastic.co/kibana/${KIBANA_MAJOR}/debian stable main" > /etc/apt/sources.list.d/kibana.list
-RUN echo 'deb http://packages.elastic.co/kibana/5.0.0-alpha/debian stable main' > /etc/apt/sources.list.d/kibana.list
+RUN echo 'deb https://artifacts.elastic.co/packages/5.x-prerelease/apt stable main' > /etc/apt/sources.list.d/kibana.list
 # TODO figure out what's going on here and what it'll settle to for 5.0 GA
 
 RUN set -x \
