@@ -55,6 +55,12 @@ ENV PATH /opt/kibana/bin:$PATH
 
 COPY docker-entrypoint.sh /
 
+# install plugins
+# -----------------------
+RUN gosu kibana kibana plugin -i elasticsearch/marvel/2.3.3
+RUN gosu kibana kibana plugin -i elastic/sense
+
+
 EXPOSE 5601
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["kibana"]
