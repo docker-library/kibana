@@ -4,6 +4,7 @@ FROM debian:jessie
 RUN groupadd -r kibana && useradd -r -m -g kibana kibana
 
 RUN apt-get update && apt-get install -y \
+		apt-transport-https \
 		ca-certificates \
 		wget \
 	--no-install-recommends && rm -rf /var/lib/apt/lists/*
@@ -37,10 +38,10 @@ RUN set -x \
 RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 46095ACC8548582C1A2699A9D27D666CD88E42B4
 
 ENV KIBANA_MAJOR 5.0
-ENV KIBANA_VERSION 5.0.0-alpha5
+ENV KIBANA_VERSION 5.0.0-rc1
 
 #RUN echo "deb http://packages.elastic.co/kibana/${KIBANA_MAJOR}/debian stable main" > /etc/apt/sources.list.d/kibana.list
-RUN echo 'deb http://packages.elastic.co/kibana/5.0.0-alpha/debian stable main' > /etc/apt/sources.list.d/kibana.list
+RUN echo 'deb https://artifacts.elastic.co/packages/5.x-prerelease/apt stable main' > /etc/apt/sources.list.d/kibana.list
 # TODO figure out what's going on here and what it'll settle to for 5.0 GA
 
 RUN set -x \
