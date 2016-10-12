@@ -21,7 +21,7 @@ for version in "${versions[@]}"; do
 	sha1=
 	if [ "$versionMajor" -eq 4 -a "$versionMinor" -ge 4 ] || [ "$versionMajor" -gt 4 ]; then
 		if [ "$versionMajor" -eq 5 ]; then
-			repoBase='http://packages.elastic.co/kibana/5.0.0-alpha/debian' # ??? what happens post-alpha?
+			repoBase='https://artifacts.elastic.co/packages/5.x-prerelease/apt' # ??? what happens post-alpha?
 		else
 			repoBase="http://packages.elastic.co/kibana/$version/debian"
 		fi
