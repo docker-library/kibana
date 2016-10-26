@@ -40,9 +40,7 @@ RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 46095ACC85485
 ENV KIBANA_MAJOR 5.0
 ENV KIBANA_VERSION 5.0.0
 
-#RUN echo "deb http://packages.elastic.co/kibana/${KIBANA_MAJOR}/debian stable main" > /etc/apt/sources.list.d/kibana.list
 RUN echo 'deb https://artifacts.elastic.co/packages/5.x/apt stable main' > /etc/apt/sources.list.d/kibana.list
-# TODO figure out what's going on here and what it'll settle to for 5.0 GA
 
 RUN set -x \
 	&& apt-get update \
