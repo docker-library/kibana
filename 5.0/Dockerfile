@@ -33,15 +33,15 @@ RUN set -x \
 	&& chmod +x /usr/local/bin/tini \
 	&& tini -h
 
-# https://www.elastic.co/guide/en/kibana/4.4/setup.html#kibana-apt
-# https://packages.elasticsearch.org/GPG-KEY-elasticsearch
+# https://www.elastic.co/guide/en/kibana/5.0/deb.html
+# https://artifacts.elastic.co/GPG-KEY-elasticsearch
 RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 46095ACC8548582C1A2699A9D27D666CD88E42B4
 
 ENV KIBANA_MAJOR 5.0
-ENV KIBANA_VERSION 5.0.0-rc1
+ENV KIBANA_VERSION 5.0.0
 
 #RUN echo "deb http://packages.elastic.co/kibana/${KIBANA_MAJOR}/debian stable main" > /etc/apt/sources.list.d/kibana.list
-RUN echo 'deb https://artifacts.elastic.co/packages/5.x-prerelease/apt stable main' > /etc/apt/sources.list.d/kibana.list
+RUN echo 'deb https://artifacts.elastic.co/packages/5.x/apt stable main' > /etc/apt/sources.list.d/kibana.list
 # TODO figure out what's going on here and what it'll settle to for 5.0 GA
 
 RUN set -x \
