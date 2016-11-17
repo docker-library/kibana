@@ -37,9 +37,10 @@ for version in "${versions[@]}"; do
 		fullVersion="$(echo "$debVersions" | head -n1)"
 	else
 		possibleVersions="$(echo "$tags" | grep "^$version\.")"
+		nonBetaVersions="$(echo "$possibleVersions" | grep -vE 'milestone|-beta|-m')"
 		# prefer full releases over beta or milestone
-		if releaseVersions="$(echo "$possibleVersions" | grep -vEm1 'milestone|-beta|-m')"; then
-			fullVersion="$releaseVersions"
+		if [ "$nonBetaVersions" ]; then
+			fullVersion="$(echo "$nonBetaVersions" | head -n1)"
 		else
 			fullVersion="$(echo "$possibleVersions" | head -n1)"
 		fi
