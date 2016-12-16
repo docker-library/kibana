@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
 		apt-transport-https \
 		ca-certificates \
 		wget \
+		libfontconfig \
+		libfreetype6 \
 	--no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 # grab gosu for easy step-down from root
