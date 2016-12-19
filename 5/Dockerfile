@@ -7,6 +7,9 @@ RUN apt-get update && apt-get install -y \
 		apt-transport-https \
 		ca-certificates \
 		wget \
+# generating PDFs requires libfontconfig and libfreetype6
+		libfontconfig \
+		libfreetype6 \
 	--no-install-recommends && rm -rf /var/lib/apt/lists/*
 
 # grab gosu for easy step-down from root
