@@ -12,6 +12,10 @@ if [ "$1" = 'kibana' ]; then
 		sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 '$ELASTICSEARCH_URL'!" /etc/kibana/kibana.yml
 	fi
 
+	if [ "$SERVER_BASEPATH" ]; then
+		sed -ri "s!^(\#\s*)?(server\.basepath:).*!\2 '$SERVER_BASEPATH'!" /etc/kibana/kibana.yml
+	fi
+	
 	set -- gosu kibana tini -- "$@"
 fi
 
