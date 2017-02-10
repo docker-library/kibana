@@ -48,6 +48,9 @@ RUN set -x \
 	&& sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 'http://elasticsearch:9200'!" /opt/kibana/config/kibana.yml \
 	&& grep -q 'elasticsearch:9200' /opt/kibana/config/kibana.yml
 
+RUN chmod 666 /opt/kibana/optimize/.babelcache.json
+RUN chmod 777 /opt/kibana/config
+
 ENV PATH /opt/kibana/bin:$PATH
 
 COPY docker-entrypoint.sh /
