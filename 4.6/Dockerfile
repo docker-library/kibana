@@ -35,13 +35,19 @@ RUN set -x \
 	&& chmod +x /usr/local/bin/tini \
 	&& tini -h
 
-# https://www.elastic.co/guide/en/kibana/4.4/setup.html#kibana-apt
-# https://packages.elasticsearch.org/GPG-KEY-elasticsearch
-RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 46095ACC8548582C1A2699A9D27D666CD88E42B4
+RUN set -ex; \
+# https://artifacts.elastic.co/GPG-KEY-elasticsearch
+	key='46095ACC8548582C1A2699A9D27D666CD88E42B4'; \
+	export GNUPGHOME="$(mktemp -d)"; \
+	gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+	gpg --export "$key" > /etc/apt/trusted.gpg.d/elastic.gpg; \
+	rm -r "$GNUPGHOME"; \
+	apt-key list
 
 ENV KIBANA_MAJOR 4.6
-ENV KIBANA_VERSION 4.6.3
+ENV KIBANA_VERSION 4.6.4
 
+# https://www.elastic.co/guide/en/kibana/4.4/setup.html#kibana-apt
 RUN echo "deb http://packages.elastic.co/kibana/${KIBANA_MAJOR}/debian stable main" > /etc/apt/sources.list.d/kibana.list
 
 RUN set -x \
