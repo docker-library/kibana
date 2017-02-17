@@ -11,6 +11,12 @@ if [ "$1" = 'kibana' ]; then
 	if [ "$ELASTICSEARCH_URL" ]; then
 		sed -ri "s!^(\#\s*)?(elasticsearch\.url:).*!\2 '$ELASTICSEARCH_URL'!" /etc/kibana/kibana.yml
 	fi
+        if [ "$ELASTICSEARCH_USERNAME" ]; then
+                sed -ri "s!^(\#\s*)?(elasticsearch\.username:).*!\2 '$ELASTICSEARCH_USERNAME'!" /etc/kibana/kibana.yml
+        fi
+        if [ "$ELASTICSEARCH_PASSWORD" ]; then
+                sed -ri "s!^(\#\s*)?(elasticsearch\.password:).*!\2 '$ELASTICSEARCH_PASSWORD'!" /etc/kibana/kibana.yml
+        fi
 
 	set -- gosu kibana tini -- "$@"
 fi
