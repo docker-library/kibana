@@ -48,7 +48,7 @@ RUN set -ex; \
 # https://www.elastic.co/guide/en/kibana/5.0/deb.html
 RUN echo 'deb https://artifacts.elastic.co/packages/5.x/apt stable main' > /etc/apt/sources.list.d/kibana.list
 
-ENV KIBANA_VERSION 5.2.1
+ENV KIBANA_VERSION 5.2.2
 
 RUN set -x \
 	&& apt-get update \
