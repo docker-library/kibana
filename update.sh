@@ -14,13 +14,9 @@ debArch="$(dpkg --print-architecture)"
 
 travisEnv=
 for version in "${versions[@]}"; do
-	# major.minor.patch
-	majorVersion="${version%%.*}"
-	minorVersion="${version#$majorVersion.}"
-	[ "$minorVersion" != "$version" ] || minorVersion=
-	minorVersion="${minorVersion%%.*}"
+	rcVersion="${version%-rc}"
 
-
+	majorVersion="${rcVersion%%.*}"
 	aptBucket="${majorVersion}.x"
 	if [ "$rcVersion" != "$version" ]; then
 		aptBucket+='-prerelease'
