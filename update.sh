@@ -28,11 +28,11 @@ for version in "${versions[@]}"; do
 	debRepo="https://artifacts.elastic.co/packages/$aptBucket/apt"
 	tarballUrlBase='https://artifacts.elastic.co/downloads'
 	if [ "$majorVersion" -eq 2 ]; then
-		debRepo="http://packages.elasticsearch.org/elasticsearch/$aptBucket/debian"
-		tarballUrlBase='https://download.elastic.co/elasticsearch'
+		debRepo="http://packages.kibana.org/kibana/$aptBucket/debian"
+		tarballUrlBase='https://download.elastic.co/kibana'
 	fi
 
-	fullVersion="$(curl -fsSL "$debRepo/dists/stable/main/binary-amd64/Packages" | awk -F ': ' '$1 == "Package" { pkg = $2 } pkg == "elasticsearch" && $1 == "Version" && $2 ~ /^([0-9]+:)?'"$rcVersion"'/ { print $2 }' | sort -rV | head -n1)"
+	fullVersion="$(curl -fsSL "$debRepo/dists/stable/main/binary-amd64/Packages" | awk -F ': ' '$1 == "Package" { pkg = $2 } pkg == "kibana" && $1 == "Version" && $2 ~ /^([0-9]+:)?'"$rcVersion"'/ { print $2 }' | sort -rV | head -n1)"
 	if [ -z "$fullVersion" ]; then
 		echo >&2 "warning: cannot find full version for $version"
 		continue
@@ -44,11 +44,11 @@ for version in "${versions[@]}"; do
     
     sha1= 
 
-    
-    
+
+
     if [ $majorVersion -ge 6 ]; then
 		# Use the "upstream" Dockerfile, which rebundles the existing image from Elastic.
-		upstreamImage="docker.elastic.co/elasticsearch/kibana:$plainVersion"
+		upstreamImage="docker.elastic.co/kibana/kibana:$plainVersion"
 		
 		# Parse image manifest for sha
 		authToken="$(curl -fsSL 'https://docker-auth.elastic.co/auth?service=token-service&scope=repository:kibana/kibana:pull' | jq -r .token)"
@@ -60,7 +60,7 @@ for version in "${versions[@]}"; do
 		(
 			set -x
 			sed '
-				s!%%ELASTICSEARCH_VERSION%%!'"$plainVersion"'!g;
+				s!%%KIBANA_VERSION%%!'"$plainVersion"'!g;
 				s!%%UPSTREAM_IMAGE_DIGEST%%!'"$upstreamImageDigest"'!g;
 			' Dockerfile-upstream.template > "$version/Dockerfile"
 		)
