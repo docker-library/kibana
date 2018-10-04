@@ -55,17 +55,24 @@ join() {
 for version in "${versions[@]}"; do
 	commit="$(dirCommit "$version")"
 
-	fullVersion="$(git show "$commit":"$version/Dockerfile" | awk '$1 == "ENV" && $2 == "KIBANA_VERSION" { gsub(/~/, "-", $3); print $3; exit }')"
+	rcVersion="${version%-rc}"
 
 	versionAliases=()
-	while [ "$fullVersion" != "$version" -a "${fullVersion%[.-]*}" != "$fullVersion" ]; do
+	if [ "${rcVersion%%.*}" -ge 6 ]; then
+		fullVersion="$(git show "$commit":"$version/Dockerfile" | awk '$1 == "FROM" && $2 ~ /^docker.elastic.co/ { gsub(/^[^:]+:|@.+$/, "", $2); print $2; exit }')"
 		versionAliases+=( $fullVersion )
-		fullVersion="${fullVersion%[.-]*}"
-	done
-	versionAliases+=(
-		$version
-		${aliases[$version]:-}
-	)
+	else
+		fullVersion="$(git show "$commit":"$version/Dockerfile" | awk '$1 == "ENV" && $2 == "KIBANA_VERSION" { gsub(/~/, "-", $3); print $3; exit }')"
+
+		while [ "$fullVersion" != "$rcVersion" -a "${fullVersion%[.-]*}" != "$fullVersion" ]; do
+			versionAliases+=( $fullVersion )
+			fullVersion="${fullVersion%[.-]*}"
+		done
+		versionAliases+=(
+			$rcVersion
+			${aliases[$version]:-}
+		)
+	fi
 
 	echo
 	cat <<-EOE
