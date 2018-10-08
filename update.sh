@@ -37,22 +37,20 @@ for version in "${versions[@]}"; do
 	plainVersion="${fullVersion%%-*}" # strip non-upstream-version
 	plainVersion="${plainVersion##*:}" # strip epoch
 	tilde='~'; plainVersion="${plainVersion//$tilde/-}" # replace '~' with '-'
-    
-    sha1= 
 
+	sha1=
 
-
-    if [ $majorVersion -ge 6 ]; then
+	if [ $majorVersion -ge 6 ]; then
 		# Use the "upstream" Dockerfile, which rebundles the existing image from Elastic.
 		upstreamImage="docker.elastic.co/kibana/kibana:$plainVersion"
 		
 		# Parse image manifest for sha
 		authToken="$(curl -fsSL 'https://docker-auth.elastic.co/auth?service=token-service&scope=repository:kibana/kibana:pull' | jq -r .token)"
-        digest="$(curl --head -fsSL -H 'Accept: application/vnd.docker.distribution.manifest.v2+json' -H "Authorization: Bearer $authToken" "https://docker.elastic.co/v2/kibana/kibana/manifests/$plainVersion" | tr -d '\r' | gawk -F ':[[:space:]]+' '$1 == "Docker-Content-Digest" { print $2 }')"
-        
-        # Format image reference (image@sha)
-        upstreamImageDigest="$upstreamImage@$digest"
-        
+		digest="$(curl --head -fsSL -H 'Accept: application/vnd.docker.distribution.manifest.v2+json' -H "Authorization: Bearer $authToken" "https://docker.elastic.co/v2/kibana/kibana/manifests/$plainVersion" | tr -d '\r' | gawk -F ':[[:space:]]+' '$1 == "Docker-Content-Digest" { print $2 }')"
+
+		# Format image reference (image@sha)
+		upstreamImageDigest="$upstreamImage@$digest"
+
 		(
 			set -x
 			sed '
@@ -60,7 +58,7 @@ for version in "${versions[@]}"; do
 				s!%%UPSTREAM_IMAGE_DIGEST%%!'"$upstreamImageDigest"'!g;
 			' Dockerfile-upstream.template > "$version/Dockerfile"
 		)
-		travisEnv='\n  - VERSION='"$version VARIANT=$travisEnv"
+		travisEnv='\n  - VERSION='"$version$travisEnv"
 	else
 		repoBase='https://artifacts.elastic.co/packages/5.x/apt'
 
@@ -92,7 +90,7 @@ for version in "${versions[@]}"; do
 		)
 
 		travisEnv='\n  - VERSION='"$version$travisEnv"
-	 fi
+	fi
 done
 
 travis="$(awk -v 'RS=\n\n' '$1 == "env:" { $0 = "env:'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"
