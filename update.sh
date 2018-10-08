@@ -38,8 +38,6 @@ for version in "${versions[@]}"; do
 	plainVersion="${plainVersion##*:}" # strip epoch
 	tilde='~'; plainVersion="${plainVersion//$tilde/-}" # replace '~' with '-'
 
-	sha1=
-
 	if [ $majorVersion -ge 6 ]; then
 		# Use the "upstream" Dockerfile, which rebundles the existing image from Elastic.
 		upstreamImage="docker.elastic.co/kibana/kibana:$plainVersion"
@@ -85,7 +83,6 @@ for version in "${versions[@]}"; do
 			sed -ri '
 				s/^(ENV KIBANA_MAJOR) .*/\1 '"$version"'/;
 				s/^(ENV KIBANA_VERSION) .*/\1 '"$fullVersion"'/;
-				s/^(ENV KIBANA_SHA1) .*/\1 '"$sha1"'/;
 			' "$version/Dockerfile"
 		)
 

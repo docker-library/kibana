@@ -9,3 +9,5 @@ FROM docker.elastic.co/kibana/kibana:6.4.2@sha256:0729944a83a75353867c4a0703396d
 # For a full list of supported images and tags visit https://www.docker.elastic.co
 
 # For Elasticsearch documentation visit https://www.elastic.co/guide/en/kibana/reference/current/docker.html
+
+# See https://github.com/docker-library/official-images/pull/4917 for more details.
