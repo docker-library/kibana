@@ -1,12 +1,6 @@
-# DEPRECATED
+# https://github.com/elastic/kibana-docker
 
-This image has been deprecated in favor of the [official `kibana` image](https://www.elastic.co/guide/en/kibana/current/_pulling_the_image.html) provided and maintained by [elastic.co](https://www.elastic.co/). The list of images available from Elastic can be found at [www.docker.elastic.co](https://www.docker.elastic.co/). The images found here will receive no further updates once the `6.0.0` release is available upstream. Please adjust your usage accordingly.
-
-Elastic provides open-source support for Kibana via the [elastic/kibana GitHub repository](https://github.com/elastic/kibana) and the Docker image via the [elastic/kibana-docker GitHub repository](https://github.com/elastic/kibana-docker), as well as community support via its [forums](https://discuss.elastic.co/c/kibana).
-
-# https://github.com/docker-library/kibana
-
-## Maintained by: [the Docker Community](https://github.com/docker-library/kibana)
+## Maintained by: [the Elastic Team](https://github.com/elastic/kibana-docker)
 
 This is the Git repo of the [Docker "Official Image"](https://docs.docker.com/docker-hub/official_repos/) for [kibana](https://hub.docker.com/_/kibana/) (not to be confused with any official kibana image provided by kibana upstream). See [the Docker Hub page](https://hub.docker.com/_/kibana/) for the full readme on how to use this Docker image and for information regarding contributing and issues.
 
