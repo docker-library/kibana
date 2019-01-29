@@ -1,10 +1,10 @@
-# Kibana 6.5.4
+# Kibana 6.6.0
 
 # This image re-bundles the Docker image from the upstream provider, Elastic. 
-FROM docker.elastic.co/kibana/kibana:6.5.4@sha256:632ecebdf89a36052e3eba281fdfa621a2afe5cd6b8061ad380ba3b3f0b25c01
+FROM docker.elastic.co/kibana/kibana:6.6.0@sha256:7c6eadb13667e36d21b7e96809a02d14527c15bbfc5b92631168a58ed5f9fd33
 
 # The upstream image was built by:
-#   https://github.com/elastic/kibana-docker/tree/6.5.4
+#   https://github.com/elastic/kibana-docker/tree/6.6.0
 
 # For a full list of supported images and tags visit https://www.docker.elastic.co
 
