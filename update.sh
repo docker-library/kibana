@@ -49,7 +49,7 @@ for version in "${versions[@]}"; do
 		# Format image reference (image@sha)
 		upstreamImageDigest="$upstreamImage@$digest"
 
-		upstreamDockerfileLink="https://github.com/elastic/kibana-docker/tree/$plainVersion"
+		upstreamDockerfileLink="https://github.com/elastic/dockerfiles/tree/v$plainVersion/kibana"
 
 		(
 			set -x
