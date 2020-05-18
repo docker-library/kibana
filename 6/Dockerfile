@@ -6,6 +6,9 @@ FROM docker.elastic.co/kibana/kibana:6.8.9@sha256:cf376141e7f543e368055308fa0e64
 # The upstream image was built by:
 #   https://github.com/elastic/dockerfiles/tree/v6.8.9/kibana
 
+# The build can be reproduced locally via:
+#   docker build 'https://github.com/elastic/dockerfiles.git#v6.8.9:kibana'
+
 # For a full list of supported images and tags visit https://www.docker.elastic.co
 
 # For documentation visit https://www.elastic.co/guide/en/kibana/current/docker.html
