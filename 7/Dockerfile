@@ -1,13 +1,13 @@
-# Kibana 7.10.1
+# Kibana 7.10.2
 
 # This image re-bundles the Docker image from the upstream provider, Elastic.
-FROM docker.elastic.co/kibana/kibana:7.10.1@sha256:e6488b7cdd9733ece70903f5fd587e04810f9f5115ac31b35cb44569f0b408bb
+FROM docker.elastic.co/kibana/kibana:7.10.2@sha256:b5a72f8d1ded65f1542034595a5e0862df1619e0059ada6bb081a717aec13056
 
 # The upstream image was built by:
-#   https://github.com/elastic/dockerfiles/tree/v7.10.1/kibana
+#   https://github.com/elastic/dockerfiles/tree/v7.10.2/kibana
 
 # The build can be reproduced locally via:
-#   docker build 'https://github.com/elastic/dockerfiles.git#v7.10.1:kibana'
+#   docker build 'https://github.com/elastic/dockerfiles.git#v7.10.2:kibana'
 
 # For a full list of supported images and tags visit https://www.docker.elastic.co
 
