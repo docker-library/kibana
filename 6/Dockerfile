@@ -1,13 +1,13 @@
-# Kibana 6.8.14
+# Kibana 6.8.15
 
 # This image re-bundles the Docker image from the upstream provider, Elastic.
-FROM docker.elastic.co/kibana/kibana:6.8.14@sha256:c4cf5cf0a6f61a6f650a827ff1115540ceb187bd83455788a15392fb1b65be7d
+FROM docker.elastic.co/kibana/kibana:6.8.15@sha256:976b80e66dc3451784a8a481292a0bac4c9a3b07776831db61dafa666a54103d
 
 # The upstream image was built by:
-#   https://github.com/elastic/dockerfiles/tree/v6.8.14/kibana
+#   https://github.com/elastic/dockerfiles/tree/v6.8.15/kibana
 
 # The build can be reproduced locally via:
-#   docker build 'https://github.com/elastic/dockerfiles.git#v6.8.14:kibana'
+#   docker build 'https://github.com/elastic/dockerfiles.git#v6.8.15:kibana'
 
 # For a full list of supported images and tags visit https://www.docker.elastic.co
 
