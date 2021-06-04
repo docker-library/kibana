@@ -50,16 +50,17 @@ join() {
 for version in "${versions[@]}"; do
 	commit="$(dirCommit "$version")"
 
-	rcVersion="${version%-rc}"
-
 	fullVersion="$(git show "$commit":"$version/Dockerfile" | awk '$1 == "FROM" && $2 ~ /^docker.elastic.co/ { gsub(/^[^:]+:|@.+$/, "", $2); print $2; exit }')"
 
 	versionAliases=( $fullVersion )
 	# TODO decide whether to support X.Y aliases as well
 
+	versionArches="$(git show "$commit":"$version/Dockerfile" | awk -F ': ' '$1 == "# Supported Bashbrew Architectures" { print $2; exit }')"
+
 	echo
 	cat <<-EOE
 		Tags: $(join ', ' "${versionAliases[@]}")
+		Architectures: $(join ', ' $versionArches)
 		GitCommit: $commit
 		Directory: $version
 	EOE

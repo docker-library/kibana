@@ -2,6 +2,7 @@
 
 # This image re-bundles the Docker image from the upstream provider, Elastic.
 FROM docker.elastic.co/kibana/kibana:6.8.16@sha256:6fd33af2bd4617ac5184fbf2dfdbab51a8aa3c93ad9f1febf6eed4345c768d93
+# Supported Bashbrew Architectures: amd64
 
 # The upstream image was built by:
 #   https://github.com/elastic/dockerfiles/tree/v6.8.16/kibana
