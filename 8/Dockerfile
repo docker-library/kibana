@@ -1,14 +1,14 @@
-# Kibana 8.2.3
+# Kibana 8.3.0
 
 # This image re-bundles the Docker image from the upstream provider, Elastic.
-FROM docker.elastic.co/kibana/kibana:8.2.3@sha256:b102c86e17311a1e936c51aa787751de3806702522ea2cbdcbc18eb9359601c9
+FROM docker.elastic.co/kibana/kibana:8.3.0@sha256:046a8fabf69a72917955f1800d3053356ae7387bc59c85292c26a224311f7012
 # Supported Bashbrew Architectures: amd64 arm64v8
 
 # The upstream image was built by:
-#   https://github.com/elastic/dockerfiles/tree/v8.2.3/kibana
+#   https://github.com/elastic/dockerfiles/tree/v8.3.0/kibana
 
 # The build can be reproduced locally via:
-#   docker build 'https://github.com/elastic/dockerfiles.git#v8.2.3:kibana'
+#   docker build 'https://github.com/elastic/dockerfiles.git#v8.3.0:kibana'
 
 # For a full list of supported images and tags visit https://www.docker.elastic.co
 
