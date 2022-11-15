@@ -10,9 +10,6 @@ docker image history --no-trunc --format '{{ .CreatedBy }}' "$@" \
 		# munge the checksum of the first ADD of the base image (base image changes unnecessarily break our diffs)
 		NR == 1 && $1 == "ADD" && $4 == "/" { $2 = "-" }
 
-		# just ignore the default CentOS CMD value (not relevant to our needs)
-		$0 == "CMD [\"/bin/bash\"]" { next }
-
 		# remove "org.label-schema.build-date" and "org.opencontainers.image.created" (https://github.com/elastic/dockerfiles/pull/101#pullrequestreview-879623350)
 		$1 == "LABEL" { gsub(/ (org[.]label-schema[.]build-date|org[.]opencontainers[.]image[.]created)=[^ ]+( [0-9:+-]+)?/, "") }
 
