@@ -14,7 +14,7 @@ For outstanding `kibana` image PRs, check [PRs with the "library/kibana" label o
 
 ---
 
--	[![build status badge](https://img.shields.io/github/workflow/status/docker-library/kibana/GitHub%20CI/master?label=GitHub%20CI)](https://github.com/docker-library/kibana/actions?query=workflow%3A%22GitHub+CI%22+branch%3Amaster)
+-	[![build status badge](https://img.shields.io/github/actions/workflow/status/docker-library/kibana/ci.yml?branch=master&label=GitHub%20CI)](https://github.com/docker-library/kibana/actions?query=workflow%3A%22GitHub+CI%22+branch%3Amaster)
 -	[![build status badge](https://img.shields.io/jenkins/s/https/doi-janky.infosiftr.net/job/update.sh/job/kibana.svg?label=Automated%20update.sh)](https://doi-janky.infosiftr.net/job/update.sh/job/kibana/)
 
 | Build | Status | Badges | (per-arch) |
