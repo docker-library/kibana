@@ -19,7 +19,7 @@ docker image history --no-trunc --format '{{ .CreatedBy }}' "$@" \
 			sub(/^\/bin\/sh[[:space:]]+-c[[:space:]]+/, "")
 			sub(/[[:space:]]*# buildkit$/, "")
 		}
-		$1 == "EXPOSE" { gsub(/map\[|\/tcp:\{\}\]/, "") }
+		$1 == "EXPOSE" { gsub(/map\[|\/tcp:\{\}|\]/, "") }
 		# buildkit makes COPY expressions hyper-simplified ("COPY --chown=1000:0 --from=foo /foo /bar" becomes just "COPY /foo /bar" vs "COPY --chown=1000:0 dir:xxxx in /bar")
 		$1 == "COPY" { $0 = gensub(/^[[:space:]]*(COPY)[[:space:]]+([^[:space:]]+[[:space:]]+)+([^[:space:]]+)[[:space:]]*$/, "\\1 ... \\3", 1) }
 
