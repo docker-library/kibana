@@ -1,14 +1,14 @@
-# Kibana 7.17.10
+# Kibana 7.17.12
 
 # This image re-bundles the Docker image from the upstream provider, Elastic.
-FROM docker.elastic.co/kibana/kibana:7.17.10@sha256:4426892d5a8744d9f17932189a839822bf068ebb2610db8dc477b10d345a1058
+FROM docker.elastic.co/kibana/kibana:7.17.12@sha256:3de705b1689f77b4c7b9c60cf2aaf861e6b48e377279bde9b100b31d38419f2d
 # Supported Bashbrew Architectures: amd64 arm64v8
 
 # The upstream image was built by:
-#   https://github.com/elastic/dockerfiles/tree/v7.17.10/kibana
+#   https://github.com/elastic/dockerfiles/tree/v7.17.12/kibana
 
 # The build can be reproduced locally via:
-#   docker build 'https://github.com/elastic/dockerfiles.git#v7.17.10:kibana'
+#   docker build 'https://github.com/elastic/dockerfiles.git#v7.17.12:kibana'
 
 # For a full list of supported images and tags visit https://www.docker.elastic.co
 
